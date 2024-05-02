@@ -1,0 +1,19 @@
+[project]
+name = "Replicate Llama Trained models Reverse Engineering API"
+version = "0.0.1"
+authors = [
+  { name="teloryfrozy", github="https://github.com/teloryfrozy" },
+]
+description = "A Python module for interacting with the Meta Llama models trained via Replicate's API."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/teloryfrozy/Llama-API-RevEng"
+Issues = "https://github.com/teloryfrozy/Llama-API-RevEng/issues"
+PullRequests = "https://github.com/teloryfrozy/Llama-API-RevEng/pulls"
