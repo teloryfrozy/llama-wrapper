@@ -6,7 +6,6 @@ import sys
 
 project_root = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.abspath(os.path.join(project_root, "..")))
-# Suppressing STDOUT from the module
 sys.stdout = io.StringIO()
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -43,35 +42,57 @@ class TestLlamaWrapper(unittest.TestCase):
         self.assertIsInstance(response_llama["total_tokens"], int)
         self.assertIsInstance(response_llama["token_rate"], float)
 
-    def test_prompt_validator(self):
-        """Test validation methods of PromptDataValidator."""
-        # Test model validation
-        result = self.prompt_validator.verify_model(self.prompt_validator.model)
-        self.assertTrue(result)
+    def test_model_validation(self):
+        """Test validation of model parameter."""
+        is_valid = self.prompt_validator.verify_model(self.prompt_validator.model)
+        self.assertTrue(
+            is_valid, "Model validation failed: Expected model to be valid."
+        )
         result = self.prompt_validator.verify_model("gpt-3.5-turbo")
-        self.assertFalse(result)
+        self.assertFalse(
+            result,
+            "Model validation failed: Expected model validation to fail for invalid input.",
+        )
 
-        # Test max tokens validation
-        result = self.prompt_validator.verify_max_tokens(
+    def test_max_tokens_validation(self):
+        """Test validation of max_tokens parameter."""
+        is_valid = self.prompt_validator.verify_max_tokens(
             self.prompt_validator.max_tokens
         )
-        self.assertTrue(result)
+        self.assertTrue(
+            is_valid, "Max tokens validation failed: Expected max_tokens to be valid."
+        )
         result = self.prompt_validator.verify_max_tokens(4097)
-        self.assertFalse(result)
+        self.assertFalse(
+            result,
+            "Max tokens validation failed: Expected max_tokens validation to fail for invalid input.",
+        )
 
-        # Test temperature validation
-        result = self.prompt_validator.verify_temperature(
+    def test_temperature_validation(self):
+        """Test validation of temperature parameter."""
+        is_valid = self.prompt_validator.verify_temperature(
             self.prompt_validator.temperature
         )
-        self.assertTrue(result)
+        self.assertTrue(
+            is_valid, "Temperature validation failed: Expected temperature to be valid."
+        )
         result = self.prompt_validator.verify_temperature(1)
-        self.assertFalse(result)
+        self.assertFalse(
+            result,
+            "Temperature validation failed: Expected temperature validation to fail for invalid input.",
+        )
 
-        # Test top P validation
-        result = self.prompt_validator.verify_top_p(self.prompt_validator.top_p)
-        self.assertTrue(result)
+    def test_top_p_validation(self):
+        """Test validation of top_p parameter."""
+        is_valid = self.prompt_validator.verify_top_p(self.prompt_validator.top_p)
+        self.assertTrue(
+            is_valid, "Top P validation failed: Expected top_p to be valid."
+        )
         result = self.prompt_validator.verify_top_p(1)
-        self.assertFalse(result)
+        self.assertFalse(
+            result,
+            "Top P validation failed: Expected top_p validation to fail for invalid input.",
+        )
 
 
 if __name__ == "__main__":

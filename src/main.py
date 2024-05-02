@@ -4,6 +4,7 @@ Wrapper for interacting with the Llama trained models via the Replicate API.
 
 import datetime
 import time
+import nltk
 import requests
 from .constants import (
     API_URL,
@@ -14,6 +15,11 @@ from .constants import (
     DEFAULT_TOP_P,
 )
 from .validator import PromptDataValidator
+
+try:
+    nltk.data.find("tokenizers/punkt")
+except LookupError:
+    nltk.download("punkt")
 
 
 class LlamaWrapper:
@@ -76,8 +82,7 @@ class LlamaWrapper:
                 response_time = end_time - start_time
                 response_time_formatted = datetime.timedelta(seconds=response_time)
 
-                # TODO: verify if the computations are correct
-                total_tokens: int = len(response_llama_str.split())
+                total_tokens: int = len(nltk.word_tokenize(response_llama_str))
                 token_rate = total_tokens / response_time
 
                 response_llama = {
