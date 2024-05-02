@@ -1,22 +1,77 @@
+import datetime
+import io
 import unittest
 import os
 import sys
+
+project_root = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.abspath(os.path.join(project_root, "..")))
+# Suppressing STDOUT from the module
+sys.stdout = io.StringIO()
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from src.validator import PromptDataValidator
+from src.constants import (
+    DEFAULT_MAX_TOKENS,
+    DEFAULT_MESSAGE,
+    DEFAULT_MODEL,
+    DEFAULT_TEMPERATURE,
+    DEFAULT_TOP_P,
+)
 from src.main import LlamaWrapper
+from src.validator import PromptDataValidator
 
 
 class TestLlamaWrapper(unittest.TestCase):
-    def test_prompt(self):
-        llama_ai = LlamaWrapper()
-        response_llama = llama_ai.prompt("How are you today?")
-        self.assertIsInstance(response_llama, str)
+    """Test cases for LlamaWrapper class and PromptDataValidator."""
 
-    def test_model(self):
-        result = PromptDataValidator().verify_model("gpt-3.5-turbo")
-        self.assertFalse(result)
-        result = PromptDataValidator().verify_model("meta/llama-2-70b-chat")
+    def setUp(self):
+        """Initialize common objects or configurations."""
+        self.llama_ai = LlamaWrapper()
+        self.prompt_validator = PromptDataValidator(
+            message=DEFAULT_MESSAGE,
+            model=DEFAULT_MODEL,
+            max_tokens=DEFAULT_MAX_TOKENS,
+            temperature=DEFAULT_TEMPERATURE,
+            top_p=DEFAULT_TOP_P,
+        )
+
+    def test_prompt(self):
+        """Test prompt method of LlamaWrapper."""
+        response_llama = self.llama_ai.prompt(DEFAULT_MESSAGE)
+        self.assertIsInstance(response_llama["response"], str)
+        self.assertIsInstance(response_llama["response_time"], datetime.timedelta)
+        self.assertIsInstance(response_llama["total_tokens"], int)
+        self.assertIsInstance(response_llama["token_rate"], float)
+
+    def test_prompt_validator(self):
+        """Test validation methods of PromptDataValidator."""
+        # Test model validation
+        result = self.prompt_validator.verify_model(self.prompt_validator.model)
         self.assertTrue(result)
+        result = self.prompt_validator.verify_model("gpt-3.5-turbo")
+        self.assertFalse(result)
+
+        # Test max tokens validation
+        result = self.prompt_validator.verify_max_tokens(
+            self.prompt_validator.max_tokens
+        )
+        self.assertTrue(result)
+        result = self.prompt_validator.verify_max_tokens(4097)
+        self.assertFalse(result)
+
+        # Test temperature validation
+        result = self.prompt_validator.verify_temperature(
+            self.prompt_validator.temperature
+        )
+        self.assertTrue(result)
+        result = self.prompt_validator.verify_temperature(1)
+        self.assertFalse(result)
+
+        # Test top P validation
+        result = self.prompt_validator.verify_top_p(self.prompt_validator.top_p)
+        self.assertTrue(result)
+        result = self.prompt_validator.verify_top_p(1)
+        self.assertFalse(result)
 
 
 if __name__ == "__main__":

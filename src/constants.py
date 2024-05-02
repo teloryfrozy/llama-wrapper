@@ -2,9 +2,6 @@
 Constants for interacting with the Llama trained models via the Replicate API.
 """
 
-from data_types import DecimalNumber
-
-
 API_URL = "https://www.llama2.ai/api"
 
 MODELS = [
@@ -23,15 +20,16 @@ DEFAULT_HEADERS = {
 }
 
 DEFAULT_MODEL = "meta/llama-2-70b-chat"
+DEFAULT_MESSAGE = "Hello, How are you today?"
 
-MIN_TOKENS = 1
-MAX_TOKENS = 4096
-DEFAULT_MAX_TOKENS = 300
+MIN_TOKENS: int = 1
+MAX_TOKENS: int = 4096
+DEFAULT_MAX_TOKENS: int = 300
 
-MIN_TEMPERATURE = DecimalNumber(0, 0)
-MAX_TEMPERATURE = DecimalNumber(5, 0)
-DEFAULT_TEMPERATURE = DecimalNumber(0, 75)
+MIN_TEMPERATURE = 0.0
+MAX_TEMPERATURE = 5.0
+DEFAULT_TEMPERATURE = 0.75
 
-MIN_TOP_P = DecimalNumber(0, 0)
-MAX_TOP_P = DecimalNumber(5, 0)
-DEFAULT_TOP_P = DecimalNumber(0, 9)
+MIN_TOP_P = 0.0
+MAX_TOP_P = 5.0
+DEFAULT_TOP_P = 0.9

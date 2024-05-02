@@ -2,8 +2,10 @@
 Wrapper for interacting with the Llama trained models via the Replicate API.
 """
 
+import datetime
+import time
 import requests
-from constants import (
+from .constants import (
     API_URL,
     DEFAULT_HEADERS,
     DEFAULT_MAX_TOKENS,
@@ -11,8 +13,7 @@ from constants import (
     DEFAULT_TEMPERATURE,
     DEFAULT_TOP_P,
 )
-from data_types import DecimalNumber
-from validator import PromptDataValidator
+from .validator import PromptDataValidator
 
 
 class LlamaWrapper:
@@ -34,9 +35,9 @@ class LlamaWrapper:
         message: str,
         model: str = DEFAULT_MODEL,
         max_tokens: int = DEFAULT_MAX_TOKENS,
-        temperature: DecimalNumber = DEFAULT_TEMPERATURE,
-        top_p: DecimalNumber = DEFAULT_TOP_P,
-    ) -> str:
+        temperature: float = DEFAULT_TEMPERATURE,
+        top_p: float = DEFAULT_TOP_P,
+    ) -> dict[str, datetime.timedelta, int, float]:
         """
         Generate a response from the Llama API based on the provided prompt.
 
@@ -44,13 +45,18 @@ class LlamaWrapper:
             message (str): The prompt message to generate a response for.
             model (str): The model to use for generating the response. Defaults to "meta/llama-2-70b-chat".
             max_tokens (int): The maximum number of tokens in the generated response. Defaults to 300.
-            temperature (DecimalNumber): Controls the randomness of the response generation. Defaults to 0.0.
-            top_p (DecimalNumber): Controls the diversity of tokens considered during generation. Defaults to 0.0.
+            temperature (float): Controls the randomness of the response generation. Defaults to 0.0.
+            top_p (float): Controls the diversity of tokens considered during generation. Defaults to 0.0.
 
         Returns:
-            str: The generated response from the Llama API.
+            dict: A dictionary containing the following information:
+                "response" (str): The generated response from the Llama API.
+                "response_time" (datetime.timedelta): The time taken to receive the response.
+                "total_tokens" (int): The total number of tokens in the generated response.
+                "token_rate" (float): The rate of token generation (tokens per second).
         """
         PromptDataValidator(message, model, max_tokens, temperature, top_p)
+        start_time = time.time()
         data = {
             "audio": None,
             "image": None,
@@ -65,7 +71,22 @@ class LlamaWrapper:
             response = requests.post(API_URL, headers=self.headers, json=data)
 
             if response.status_code == 200:
-                response_llama = response.content.decode("utf-8")
+                response_llama_str = response.text
+                end_time = time.time()
+                response_time = end_time - start_time
+                response_time_formatted = datetime.timedelta(seconds=response_time)
+
+                # TODO: verify if the computations are correct
+                total_tokens: int = len(response_llama_str.split())
+                token_rate = total_tokens / response_time
+
+                response_llama = {
+                    "response": response_llama_str,
+                    "response_time": response_time_formatted,
+                    "total_tokens": total_tokens,
+                    "token_rate": token_rate,
+                }
+
                 return response_llama
             else:
                 raise Exception(
