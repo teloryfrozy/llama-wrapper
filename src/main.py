@@ -1,5 +1,18 @@
+"""
+Wrapper for interacting with the Llama trained models via the Replicate API.
+"""
+
 import requests
-from src.constants import API_URL, DEFAULT_HEADERS
+from constants import (
+    API_URL,
+    DEFAULT_HEADERS,
+    DEFAULT_MAX_TOKENS,
+    DEFAULT_MODEL,
+    DEFAULT_TEMPERATURE,
+    DEFAULT_TOP_P,
+)
+from data_types import DecimalNumber
+from validator import PromptDataValidator
 
 
 class LlamaWrapper:
@@ -19,10 +32,10 @@ class LlamaWrapper:
     def prompt(
         self,
         message: str,
-        model: str = "meta/llama-2-70b-chat",
-        max_tokens: int = 300,
-        temperature: float = 0.0,
-        top_p: float = 0.0,
+        model: str = DEFAULT_MODEL,
+        max_tokens: int = DEFAULT_MAX_TOKENS,
+        temperature: DecimalNumber = DEFAULT_TEMPERATURE,
+        top_p: DecimalNumber = DEFAULT_TOP_P,
     ) -> str:
         """
         Generate a response from the Llama API based on the provided prompt.
@@ -31,12 +44,13 @@ class LlamaWrapper:
             message (str): The prompt message to generate a response for.
             model (str): The model to use for generating the response. Defaults to "meta/llama-2-70b-chat".
             max_tokens (int): The maximum number of tokens in the generated response. Defaults to 300.
-            temperature (float): Controls the randomness of the response generation. Defaults to 0.0.
-            top_p (float): Controls the diversity of tokens considered during generation. Defaults to 0.0.
+            temperature (DecimalNumber): Controls the randomness of the response generation. Defaults to 0.0.
+            top_p (DecimalNumber): Controls the diversity of tokens considered during generation. Defaults to 0.0.
 
         Returns:
             str: The generated response from the Llama API.
         """
+        PromptDataValidator(message, model, max_tokens, temperature, top_p)
         data = {
             "audio": None,
             "image": None,
