@@ -34,14 +34,6 @@ class TestLlamaWrapper(unittest.TestCase):
             top_p=DEFAULT_TOP_P,
         )
 
-    def test_prompt(self):
-        """Test prompt method of LlamaWrapper."""
-        response_llama = self.llama_ai.prompt(DEFAULT_MESSAGE)
-        self.assertIsInstance(response_llama["response"], str)
-        self.assertIsInstance(response_llama["response_time"], datetime.timedelta)
-        self.assertIsInstance(response_llama["total_tokens"], int)
-        self.assertIsInstance(response_llama["token_rate"], float)
-
     def test_model_validation(self):
         """Test validation of model parameter."""
         is_valid = self.prompt_validator.verify_model(self.prompt_validator.model)

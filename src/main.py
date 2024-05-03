@@ -58,8 +58,6 @@ class LlamaWrapper:
             dict: A dictionary containing the following information:
                 "response" (str): The generated response from the Llama API.
                 "response_time" (datetime.timedelta): The time taken to receive the response.
-                "total_tokens" (int): The total number of tokens in the generated response.
-                "token_rate" (float): The rate of token generation (tokens per second).
         """
         PromptDataValidator(message, model, max_tokens, temperature, top_p)
         start_time = time.time()
@@ -82,14 +80,9 @@ class LlamaWrapper:
                 response_time = end_time - start_time
                 response_time_formatted = datetime.timedelta(seconds=response_time)
 
-                total_tokens: int = len(nltk.word_tokenize(response_llama_str))
-                token_rate = total_tokens / response_time
-
                 response_llama = {
                     "response": response_llama_str,
                     "response_time": response_time_formatted,
-                    "total_tokens": total_tokens,
-                    "token_rate": token_rate,
                 }
 
                 return response_llama
@@ -103,3 +96,26 @@ class LlamaWrapper:
             raise Exception(f"A timeout error occurred - Details: {str(e)}")
         except Exception as e:
             raise Exception(f"An unexpected error occurred: {str(e)}")
+
+    @staticmethod
+    def get_tokens_stats(
+        text: str, response_time: datetime.timedelta
+    ) -> dict[int, float]:
+        """
+        Calculate token statistics from the provided text and response time.
+
+        Args:
+            text (str): The text to analyze for token statistics.
+            response_time (datetime.timedelta): The time taken to generate the response.
+
+        Returns:
+            dict: A dictionary containing token statistics:
+                "total_tokens" (int): The total number of tokens in the generated response.
+                "token_rate" (float): The rate of token generation (tokens per second).
+        """
+        total_tokens: int = len(nltk.word_tokenize(text))
+        token_rate: float = total_tokens / response_time.total_seconds()
+
+        tokens_stats = {"total_tokens": total_tokens, "token_rate": token_rate}
+
+        return tokens_stats
