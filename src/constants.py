@@ -19,7 +19,7 @@ DEFAULT_HEADERS = {
     "Accept-Encoding": "gzip, deflate, br",
 }
 
-DEFAULT_MODEL = "meta/llama-2-70b-chat"
+DEFAULT_MODEL = "meta/meta-llama-3-8b-instruct"
 DEFAULT_MESSAGE = "Hello, How are you today?"
 
 MIN_TOKENS: int = 1

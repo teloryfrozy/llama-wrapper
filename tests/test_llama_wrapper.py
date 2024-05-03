@@ -1,4 +1,3 @@
-import datetime
 import io
 import unittest
 import os
@@ -16,7 +15,7 @@ from src.constants import (
     DEFAULT_TEMPERATURE,
     DEFAULT_TOP_P,
 )
-from src.main import LlamaWrapper
+from src.llama_wrapper import LlamaWrapper
 from src.validator import PromptDataValidator
 
 
