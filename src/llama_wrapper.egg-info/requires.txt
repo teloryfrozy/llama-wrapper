@@ -1,0 +1,11 @@
+Brotli
+certifi
+charset-normalizer
+click
+idna
+joblib
+nltk
+regex
+requests
+tqdm
+urllib3

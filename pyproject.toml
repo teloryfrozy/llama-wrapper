@@ -1,19 +1,33 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "Replicate Llama Trained models Reverse Engineering API"
-version = "0.0.1"
-authors = [
-  { name="teloryfrozy", github="https://github.com/teloryfrozy" },
-]
-description = "A Python module for interacting with the Meta Llama models trained via Replicate's API."
+name = "llama-wrapper"
+version = "1.0.0"
+description = "🦙 A Python module for interacting with the Meta Llama models trained via Replicate's API. 🔓"
 readme = "README.md"
-requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [{ name = "teloryfrozy" }]
+requires-python = ">=3.9"
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Build Tools",
+  "Programming Language :: Python :: 3 :: Only",
+  "Operating System :: OS Independent",
+]
+keywords = [
+  "meta",
+  "reverse-engineering",
+  "replicate",
+  "llm",
+  "llama2",
+  "llama3",
 ]
 
 [project.urls]
-Homepage = "https://github.com/teloryfrozy/Llama-API-RevEng"
-Issues = "https://github.com/teloryfrozy/Llama-API-RevEng/issues"
-PullRequests = "https://github.com/teloryfrozy/Llama-API-RevEng/pulls"
+Homepage = "https://github.com/teloryfrozy/llama-wrapper"
+Issues = "https://github.com/teloryfrozy/llama-wrapper/issues"
+PullRequests = "https://github.com/teloryfrozy/llama-wrapper/pulls"
