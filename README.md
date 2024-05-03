@@ -45,6 +45,6 @@ print(llama_wrapper.get_tokens_stats(response_llama["response"], response_llama[
 {'total_tokens': 208, 'token_rate': 97.8343795654084}
 ```
 
-## Contributing:
+## Contributing
 - Open pull requests for documentation improvements, additional features, or bug fixes.
 - Report issues on the official repository, and we'll do our best to address them.

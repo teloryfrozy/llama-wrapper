@@ -1,6 +1,11 @@
-Brotli==1.1.0
-certifi==2024.2.2
-charset-normalizer==3.3.2
-idna==3.7
-requests==2.31.0
-urllib3==2.2.1
+Brotli
+certifi
+charset-normalizer
+click
+idna
+joblib
+nltk
+regex
+requests
+tqdm
+urllib3
