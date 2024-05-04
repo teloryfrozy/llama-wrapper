@@ -17,6 +17,9 @@ from src.constants import (
 )
 from src.llama_wrapper import LlamaWrapper
 from src.validator import PromptDataValidator
+from colorama import Fore, init
+
+init(autoreset=True)
 
 
 class TestLlamaWrapper(unittest.TestCase):
@@ -37,12 +40,12 @@ class TestLlamaWrapper(unittest.TestCase):
         """Test validation of model parameter."""
         is_valid = self.prompt_validator.verify_model(self.prompt_validator.model)
         self.assertTrue(
-            is_valid, "Model validation failed: Expected model to be valid."
+            is_valid, f"{Fore.RED}Model validation failed: Expected model to be valid."
         )
         result = self.prompt_validator.verify_model("gpt-3.5-turbo")
         self.assertFalse(
             result,
-            "Model validation failed: Expected model validation to fail for invalid input.",
+            f"{Fore.RED}Model validation failed: Expected model validation to fail for invalid input.",
         )
 
     def test_max_tokens_validation(self):
@@ -51,12 +54,13 @@ class TestLlamaWrapper(unittest.TestCase):
             self.prompt_validator.max_tokens
         )
         self.assertTrue(
-            is_valid, "Max tokens validation failed: Expected max_tokens to be valid."
+            is_valid,
+            f"{Fore.RED}Max tokens validation failed: Expected max_tokens to be valid.",
         )
         result = self.prompt_validator.verify_max_tokens(4097)
         self.assertFalse(
             result,
-            "Max tokens validation failed: Expected max_tokens validation to fail for invalid input.",
+            f"{Fore.RED}Max tokens validation failed: Expected max_tokens validation to fail for invalid input.",
         )
 
     def test_temperature_validation(self):
@@ -65,24 +69,25 @@ class TestLlamaWrapper(unittest.TestCase):
             self.prompt_validator.temperature
         )
         self.assertTrue(
-            is_valid, "Temperature validation failed: Expected temperature to be valid."
+            is_valid,
+            f"{Fore.RED}Temperature validation failed: Expected temperature to be valid.",
         )
         result = self.prompt_validator.verify_temperature(1)
         self.assertFalse(
             result,
-            "Temperature validation failed: Expected temperature validation to fail for invalid input.",
+            f"{Fore.RED}Temperature validation failed: Expected temperature validation to fail for invalid input.",
         )
 
     def test_top_p_validation(self):
         """Test validation of top_p parameter."""
         is_valid = self.prompt_validator.verify_top_p(self.prompt_validator.top_p)
         self.assertTrue(
-            is_valid, "Top P validation failed: Expected top_p to be valid."
+            is_valid, f"{Fore.RED}Top P validation failed: Expected top_p to be valid."
         )
         result = self.prompt_validator.verify_top_p(1)
         self.assertFalse(
             result,
-            "Top P validation failed: Expected top_p validation to fail for invalid input.",
+            f"{Fore.RED}Top P validation failed: Expected top_p validation to fail for invalid input.",
         )
 
 
