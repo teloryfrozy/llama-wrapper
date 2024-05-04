@@ -11,6 +11,9 @@ from .constants import (
     MIN_TOP_P,
     MODELS,
 )
+from colorama import Fore, init
+
+init(autoreset=True)
 
 
 class PromptDataValidator:
@@ -51,7 +54,7 @@ class PromptDataValidator:
                 (self.top_p, self.verify_top_p),
             ],
         ):
-            raise ValueError("Invalid prompt data")
+            raise ValueError(f"{Fore.RED}Invalid prompt data")
 
     @staticmethod
     def verify_model(model: str) -> bool:
@@ -62,10 +65,12 @@ class PromptDataValidator:
             bool: True if the model is valid, False otherwise.
         """
         if not isinstance(model, str):
-            print(TypeError("Model must be a string"))
+            print(TypeError(f"{Fore.RED}Model must be a string"))
             return False
         if model not in MODELS:
-            print(f"Model: '{model}' is not allowed. List of allowed models: {MODELS}")
+            print(
+                f"{Fore.RED}Model: '{model}' is not allowed. List of allowed models: {MODELS}"
+            )
             return False
         return True
 
@@ -81,11 +86,11 @@ class PromptDataValidator:
             bool: True if the 'temperature' is valid, False otherwise.
         """
         if not isinstance(temperature, float):
-            print(TypeError("Temperature must be a float object"))
+            print(TypeError(f"{Fore.RED}Temperature must be a float object"))
             return False
         if not (MIN_TEMPERATURE <= temperature <= MAX_TEMPERATURE):
             print(
-                f"Invalid 'temperature': '{temperature}'. The allowed range is: {MIN_TEMPERATURE} to {MAX_TEMPERATURE}"
+                f"{Fore.RED}Invalid 'temperature': '{temperature}'. The allowed range is: {MIN_TEMPERATURE} to {MAX_TEMPERATURE}"
             )
             return False
         return True
@@ -102,11 +107,11 @@ class PromptDataValidator:
             bool: True if the 'max_tokens' is valid, False otherwise.
         """
         if not isinstance(max_tokens, int):
-            print(TypeError("Max tokens must be an integer"))
+            print(TypeError(f"{Fore.RED}Max tokens must be an integer"))
             return False
         if not (MIN_TOKENS <= max_tokens <= MAX_TOKENS):
             print(
-                f"Invalid 'max_tokens': '{max_tokens}'. The allowed range is: {MIN_TOKENS} to {MAX_TOKENS}"
+                f"{Fore.RED}Invalid 'max_tokens': '{max_tokens}'. The allowed range is: {MIN_TOKENS} to {MAX_TOKENS}"
             )
             return False
         return True
@@ -123,11 +128,44 @@ class PromptDataValidator:
             bool: True if the 'top_p' is valid, False otherwise.
         """
         if not isinstance(top_p, float):
-            print(TypeError("Top P must be a float object"))
+            print(TypeError(f"{Fore.RED}'top_p' must be a float object"))
             return False
         if not (MIN_TOP_P <= top_p <= MAX_TOP_P):
             print(
-                f"Invalid 'top_p': '{top_p}'. The allowed range is: {MIN_TOP_P} to {MAX_TOP_P}"
+                f"{Fore.RED}Invalid 'top_p': '{top_p}'. The allowed range is: {MIN_TOP_P} to {MAX_TOP_P}"
             )
+            return False
+        return True
+
+    @staticmethod
+    def verify_headers(headers: list[str]) -> bool:
+        """
+        Verify the integrity of header configurations.
+
+        Args:
+            headers (list): A list containing header configurations as strings.
+
+        Returns:
+            bool: True if the header configurations are valid, False otherwise.
+        """
+        if not isinstance(headers, list[str]):
+            print(TypeError(f"{Fore.RED}'headers' must be a list containing strings"))
+            return False
+        return True
+
+    @staticmethod
+    def verify_proxies(proxies: list[str]) -> bool:
+        """
+        Verify the integrity of proxy configurations.
+
+        Args:
+            proxies (list): A list containing proxy endpoints.
+                Each endpoint should be a string representing either an HTTP or HTTPS proxy.
+
+        Returns:
+            bool: True if the proxy configurations are valid, False otherwise.
+        """
+        if not isinstance(proxies, list[str]):
+            print(TypeError(f"{Fore.RED}'proxies' must be a list"))
             return False
         return True
