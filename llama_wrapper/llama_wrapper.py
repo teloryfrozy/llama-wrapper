@@ -41,8 +41,8 @@ class LlamaWrapper:
 
         Args:
             headers (dict): Custom HTTP headers for API requests. Defaults to DEFAULT_HEADERS.
-            user_agents (list): List of rotating user agens taken randomly
-            self.proxies = proxies: blabla doc - protocols allowed = https and http only
+            user_agents (list[str]): List of rotating user agents taken randomly.
+            proxies (list[str]): List of proxies allowed for API requests. Only 'http' and 'https' protocols are supported.
         """
         self.user_agents = user_agents
         self.proxies = proxies
