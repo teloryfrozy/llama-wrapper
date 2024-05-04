@@ -13,15 +13,15 @@ sys.path.insert(0, os.path.abspath(os.path.join(project_root, "..")))
 sys.stdout = io.StringIO()
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from src.constants import (
+from llama_wrapper.constants import (
     DEFAULT_MAX_TOKENS,
     DEFAULT_MESSAGE,
     DEFAULT_MODEL,
     DEFAULT_TEMPERATURE,
     DEFAULT_TOP_P,
 )
-from src.llama_wrapper import LlamaWrapper
-from src.validator import PromptDataValidator
+from llama_wrapper.llama_wrapper import LlamaWrapper
+from llama_wrapper.validator import PromptDataValidator
 
 init(autoreset=True)
 
@@ -93,7 +93,3 @@ class TestLlamaWrapper(unittest.TestCase):
             result,
             f"{Fore.RED}Top P validation failed: Expected top_p validation to fail for invalid input.",
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -15,7 +15,7 @@ No API key is required to access the publicly available Llama models trained by 
 
 ## Installation
 ```bash
-pip install dist/llama_wrapper-1.0.1-py3-none-any.whl
+pip install dist/llama_wrapper-1.0.2-py3-none-any.whl
 ```
 
 ## Examples of usage
@@ -43,6 +43,15 @@ print(llama_wrapper.get_tokens_stats(response_llama["response"], response_llama[
 ```
 ```bash
 {'total_tokens': 208, 'token_rate': 97.8343795654084}
+```
+
+## Run tests
+```python
+import unittest
+from llama_wrapper.tests.test_llama_wrapper import TestLlamaWrapper
+
+if __name__ == "__main__":
+    unittest.main()
 ```
 
 ## Contributing
