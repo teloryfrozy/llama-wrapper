@@ -4,14 +4,13 @@ with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 setuptools.setup(
-    name="meta_ai_api",
+    name="llama_wrapper",
     author="teloryfrozy",
     description="🦙 A Python module for interacting with the Meta Llama models trained via Replicate's API. 🔓",
     keywords="reverse-engineering, meta, replicate, llm, llama2, llama3",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src"),
+    packages=setuptools.find_packages(),
     project_urls={
         "GitHub": "https://github.com/teloryfrozy/llama-wrapper",
     },
@@ -34,5 +33,6 @@ setuptools.setup(
         "requests",
         "tqdm",
         "urllib3",
+        "colorama",
     ],
 )

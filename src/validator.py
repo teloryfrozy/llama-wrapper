@@ -2,6 +2,7 @@
 Data type and content validator for Llama trained models.
 """
 
+from colorama import Fore, init
 from .constants import (
     MAX_TEMPERATURE,
     MAX_TOKENS,
@@ -11,7 +12,6 @@ from .constants import (
     MIN_TOP_P,
     MODELS,
 )
-from colorama import Fore, init
 
 init(autoreset=True)
 

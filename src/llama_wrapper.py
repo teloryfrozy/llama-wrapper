@@ -3,9 +3,11 @@ Wrapper for interacting with the Llama trained models via the Replicate API.
 """
 
 import datetime
+import random
 import time
 import nltk
 import requests
+from colorama import Fore, init
 from .constants import (
     API_URL,
     DEFAULT_HEADERS,
@@ -16,6 +18,7 @@ from .constants import (
 )
 from .validator import PromptDataValidator
 
+init(autoreset=True)
 try:
     nltk.data.find("tokenizers/punkt")
 except LookupError:
@@ -27,13 +30,22 @@ class LlamaWrapper:
     A Python module for interacting with the Meta Llama models trained via Replicate's API.
     """
 
-    def __init__(self, headers: dict = None) -> None:
+    def __init__(
+        self,
+        headers: dict = None,
+        user_agents: list[str] = None,
+        proxies: list[str] = None,
+    ) -> None:
         """
         Initialize the LlamaWrapper object.
 
         Args:
             headers (dict): Custom HTTP headers for API requests. Defaults to DEFAULT_HEADERS.
+            user_agents (list): List of rotating user agens taken randomly
+            self.proxies = proxies: blabla doc - protocols allowed = https and http only
         """
+        self.user_agents = user_agents
+        self.proxies = proxies
         self.headers = headers if headers else DEFAULT_HEADERS
 
     def prompt(
@@ -72,7 +84,17 @@ class LlamaWrapper:
         }
 
         try:
-            response = requests.post(API_URL, headers=self.headers, json=data)
+            if self.user_agents:
+                user_agent = random.choice(self.user_agents)
+                self.headers["User-Agent"] = user_agent
+            proxies = {}
+            if self.proxies:
+                proxy = random.choice(self.proxies)
+                proxies = {proxy.split("//")[0]: proxy}
+
+            response = requests.post(
+                API_URL, headers=self.headers, json=data, proxies=proxies
+            )
 
             if response.status_code == 200:
                 response_llama_str = response.text
@@ -86,16 +108,25 @@ class LlamaWrapper:
                 }
 
                 return response_llama
+
+            elif response.status_code == 403:
+                raise requests.HTTPError(
+                    f"{Fore.RED}You have probably been blocked by CloudFlare. Verify here: https://www.llama2.ai/"
+                )
             else:
                 raise Exception(
-                    f"No response received - Status code: {response.status_code}, Reason: {response.reason}"
+                    f"{Fore.RED}No response received - Status code: {response.status_code}, Reason: {response.reason}"
                 )
         except requests.ConnectionError as e:
-            raise Exception(f"A connection error occurred - Details: {str(e)}")
+            raise Exception(
+                f"{Fore.RED}A connection error occurred - Details: {str(e)}"
+            )
         except requests.Timeout as e:
-            raise Exception(f"A timeout error occurred - Details: {str(e)}")
+            raise Exception(
+                f"{Fore.YELLOW}A timeout error occurred - Details: {str(e)}"
+            )
         except Exception as e:
-            raise Exception(f"An unexpected error occurred: {str(e)}")
+            raise Exception(f"{Fore.RED}An unexpected error occurred: {str(e)}")
 
     @staticmethod
     def get_tokens_stats(

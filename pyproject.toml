@@ -5,8 +5,8 @@ requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "llama-wrapper"
-version = "1.0.0"
+name = "llama_wrapper"
+version = "1.0.1"
 description = "🦙 A Python module for interacting with the Meta Llama models trained via Replicate's API. 🔓"
 readme = "README.md"
 license = { file = "LICENSE" }

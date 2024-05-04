@@ -1,9 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-setup.py
-src/llama_wrapper.egg-info/PKG-INFO
-src/llama_wrapper.egg-info/SOURCES.txt
-src/llama_wrapper.egg-info/dependency_links.txt
-src/llama_wrapper.egg-info/requires.txt
-src/llama_wrapper.egg-info/top_level.txt

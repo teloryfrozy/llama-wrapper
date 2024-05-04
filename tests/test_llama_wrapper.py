@@ -1,7 +1,12 @@
+"""
+Unit tests for LlamaWrapper and PromptDataValidator classes.
+"""
+
 import io
 import unittest
 import os
 import sys
+from colorama import Fore, init
 
 project_root = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.abspath(os.path.join(project_root, "..")))
@@ -17,7 +22,6 @@ from src.constants import (
 )
 from src.llama_wrapper import LlamaWrapper
 from src.validator import PromptDataValidator
-from colorama import Fore, init
 
 init(autoreset=True)
 

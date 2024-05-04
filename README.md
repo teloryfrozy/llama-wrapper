@@ -15,7 +15,7 @@ No API key is required to access the publicly available Llama models trained by 
 
 ## Installation
 ```bash
-pip install llama-wrapper
+pip install dist/llama_wrapper-1.0.1-py3-none-any.whl
 ```
 
 ## Examples of usage
